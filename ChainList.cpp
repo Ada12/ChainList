@@ -32,6 +32,25 @@ LinkList CreateList1(LinkList &L)
 	return L;
 }
 
+LinkList CreateList2(LinkList &L)
+{
+	LNode *s;
+	int x;
+	L = (LinkList)malloc(sizeof(LNode));
+	LNode *temp = L;
+	cin >> x;
+	while(x != -1)
+	{
+		s = (LNode*)malloc(sizeof(LNode));
+		s->data = x;
+		temp->next = s;
+		temp = s;
+		cin >> x;
+	}
+	temp->next = NULL;
+	return L;
+}
+
 LNode* FindNumByIndex(LinkList &L, int index)
 {
 	int flag = 0;
@@ -48,19 +67,20 @@ LNode* FindNumByIndex(LinkList &L, int index)
 			flag ++;
 		}
 	}
-	free(temp);
 	return NULL;
 }
 
 LNode* FindNumByContent(LinkList &L, int key)
 {
 	int flag = 0;
-	while(L->next != NULL)
+	LNode *temp;
+	temp = L;
+	while(temp->next != NULL)
 	{
-		L = L->next;
-		if(L->data == key)
+		temp = temp->next;
+		if(temp->data == key)
 		{
-			return L;
+			return temp;
 		}
 		else
 		{
@@ -73,15 +93,15 @@ LNode* FindNumByContent(LinkList &L, int key)
 int InsertData(LinkList &L, int pos, LNode *n)
 {
 	int flag = 0;
-	LNode *lex;
-	lex = L;
-	while(lex->next != NULL)
+	LNode *temp;
+	temp = L;
+	while(temp->next != NULL)
 	{
-		lex = lex->next;
+		temp = temp->next;
 		if(flag == pos)
 		{
-			n->next = lex->next;
-			lex->next = n;
+			n->next = temp->next;
+			temp->next = n;
 			return 1;
 		}
 		else
@@ -96,25 +116,34 @@ int DeleteData(LinkList &L, int pos)
 	LNode *first = FindNumByIndex(L, pos-1);
 	LNode *second = first->next;
 	first->next = second->next;
-	free(second);
+//	free(second);
 	return 1;
 }
 
-//LinkList CreateList2(LinkList &L)
-//{
-//	
-//}
+int CalculateLength(LinkList &L)
+{
+	LNode *temp;
+	temp = L;
+	int length = 0;
+	while(temp->next != NULL)
+	{
+		temp = temp->next;
+		length ++;
+	}
+	return length;
+}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	LinkList ll;
-	ll = CreateList1(ll);
-	LNode *ln;
-	ln = (LNode*)malloc(sizeof(LNode));
-	ln->data = 1000;
+	ll = CreateList2(ll);
+//	LNode *ln;
+//	ln = (LNode*)malloc(sizeof(LNode));
+//	ln->data = 1000;
 //	InsertData(ll, 2, ln);
-	DeleteData(ll, 2);
+//	DeleteData(ll, 2);
 //	LNode *a = FindNumByIndex(ll,1);
+//	int length = CalculateLength(ll);
 	cout << "Output: ";
 	cout << endl;
 //	cout << a->data;
@@ -127,7 +156,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		cout << temp->data;
 		cout << endl;
 	}
-	
+//	cout << length;
 //	int result = FindNumByIndex(ll, 1);
 //	cout << result;
 	return 0;
