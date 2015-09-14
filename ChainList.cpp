@@ -133,6 +133,94 @@ int CalculateLength(LinkList &L)
 	return length;
 }
 
+void DeleteGivenValue(LinkList &L, int x)
+{
+	LNode *front = L;
+	LNode *behind = L->next;
+	while(behind->next != NULL)
+	{
+		if(behind->data == x)
+		{
+			front->next = behind->next;
+			behind = behind->next;
+		}
+		else
+		{
+			front = front->next;
+			behind = behind->next;
+		}
+	}
+}
+
+void ReversePrint(LinkList &L)
+{
+	if(L->next != NULL)
+	{
+		ReversePrint(L->next);
+	}
+	cout << L->data;
+}
+
+int DeleteMin(LinkList &L)
+{
+	LNode *front = L;
+	LNode *behind = L->next;
+	int min = behind->data;
+	while(behind->next != NULL)
+	{
+		if(behind->next->data < min)
+		{
+			min = behind->next->data;
+			front = behind;
+			behind = behind ->next;
+		}
+		else
+		{
+			behind = behind ->next;
+		}
+	}
+	if(front->next->next == NULL)
+	{
+		front->next = NULL;
+	}
+	else
+	{
+		LNode *a = front->next->next;
+		front->next = a;
+	}
+	return min;
+}
+
+void ReverseM1(LinkList &L)
+{
+	LinkList r;
+	LNode *temp = L->next;
+	L->next = NULL;
+	while (temp != NULL)
+	{
+		r = temp->next;
+		temp->next = L->next;
+		L->next = temp;
+		temp = r;
+	}
+}
+
+void ReverseM2(LinkList &L)
+{
+	LNode *pre;
+	LNode *p = L->next;
+	LNode *r = p->next;
+	p->next = NULL;
+	while(r != NULL)
+	{
+		pre = p;
+		p = r;
+		r = r->next;
+		p->next= pre;
+	}
+	L->next = p;
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	LinkList ll;
@@ -144,7 +232,12 @@ int _tmain(int argc, _TCHAR* argv[])
 //	DeleteData(ll, 2);
 //	LNode *a = FindNumByIndex(ll,1);
 //	int length = CalculateLength(ll);
+//	DeleteGivenValue(ll, 1);
+//	ReversePrint(ll->next);
+//	int min = DeleteMin(ll);
+	ReverseM2(ll);
 	cout << "Output: ";
+//	cout << min;
 	cout << endl;
 //	cout << a->data;
 	
